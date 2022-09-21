@@ -49,12 +49,6 @@ const userController = {
       .then(user => {
         if (!user) throw new Error("User didn't exist.")
         user = user.toJSON()
-        // const commentedRestaurant = []
-        // user.Comments.map(item => {
-        //   if (!item.text) return
-        //   commentedRestaurant.push(item.Restaurant)
-        // })
-
         return res.render('users/profile', { user })
       })
       .catch(err => next(err))
@@ -82,7 +76,6 @@ const userController = {
     ])
       .then(([user, filePath]) => {
         if (!user) throw new Error("User didn't exist.")
-        console.log('req.body', req.body)
         return user.update({
           name: req.body.name,
           image: filePath || user.image
