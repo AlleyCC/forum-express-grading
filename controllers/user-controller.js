@@ -59,8 +59,9 @@ const userController = {
             return prev
           }
         }, [])
+        const originalUser = req.user.id
         const isFollowed = req.user.Followings.includes(f => f.id === user.id)
-        res.render('users/profile', { user, isFollowed })
+        res.render('users/profile', { user, isFollowed, originalUser })
       })
       .catch(err => next(err))
   },
