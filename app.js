@@ -9,7 +9,7 @@ const handlebarsHelpers = require('./helpers/handlebars-helpers')
 
 const { getUser } = require('./helpers/auth-helpers')
 
-const routes = require('./routes')
+const { pages, apis } = require('./routes')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -40,8 +40,8 @@ app.use((req, res, next) => {
   res.locals.currentUser = getUser(req)
   next()
 })
-
-app.use(routes)
+app.use('/api', apis) // 條件較app.use(pages)嚴格因此放較前面
+app.use(pages)
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}!`)
 })
