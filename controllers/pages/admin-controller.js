@@ -1,14 +1,11 @@
 const { Restaurant, User, Category } = require('../../models')
 const { imgurFileHandler } = require('../../helpers/file-helpers')
+const adminServices = require('../../services/admin-services')
 const adminController = {
   getRestaurants: (req, res, next) => {
-    Restaurant.findAll({
-      raw: true,
-      nest: true,
-      include: [Category] // 把關聯資料拉進來
+    adminServices.getRestaurants(req, (err, data) => {
+      err ? next(err) : res.render('admin/restaurants', data)
     })
-      .then(restaurants => res.render('admin/restaurants', { restaurants }))
-      .catch(err => next(err))
   },
   createRestaurant: (req, res, next) => {
     return Category.findAll({
