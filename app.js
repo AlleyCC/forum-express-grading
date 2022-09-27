@@ -24,6 +24,7 @@ app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'views'))
 app.use('/upload', express.static(path.join(__dirname, 'upload')))
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json()) // for parsing application/json
 app.use(methodOverride('_method'))
 
 app.use(session({
