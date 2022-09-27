@@ -4,16 +4,14 @@ const engine = require('express-handlebars')
 const flash = require('connect-flash')
 const methodOverride = require('method-override')
 const session = require('express-session')
-const passport = require('passport')
-const handlebarsHelpers = require('./helpers/handlebars-helpers')
-
-const { getUser } = require('./helpers/auth-helpers')
-
-const { pages, apis } = require('./routes')
-
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
+const passport = require('passport')
+const handlebarsHelpers = require('./helpers/handlebars-helpers')
+const { getUser } = require('./helpers/auth-helpers')
+
+const { pages, apis } = require('./routes')
 
 const app = express()
 const port = process.env.PORT || 3000
