@@ -1,28 +1,18 @@
-const bcrypt = require('bcryptjs')
 const { User, Restaurant, Comment, Favorite, Like, Followship } = require('../../models')
 const { imgurFileHandler } = require('../../helpers/file-helpers')
+const userServices = require('../../services/user-services')
 const userController = {
   // sign up
   signUpPage: (req, res) => {
     res.render('signup')
   },
   signUp: (req, res, next) => {
-    if (req.body.password !== req.body.passwordCheck) throw new Error('Passwords does not match!')
-    return User.findOne({ where: { email: req.body.email } })
-      .then(user => {
-        if (user) throw new Error('User has already exists!')
-        return bcrypt.hash(req.body.password, 10)
-      })
-      .then(hash => User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: hash
-      }))
-      .then(() => {
-        req.flash('success_messages', 'Sign up successfully!')
-        res.redirect('/signin')
-      })
-      .catch(err => next(err))
+    userServices.signUp(req, (err, data) => {
+      if (err) return next(err)
+      req.session.createdData = data
+      req.flash('success_messages', 'Sign up successfully!')
+      res.redirect('/signin')
+    })
   },
   // sign in
   signInPage: (req, res) => {
